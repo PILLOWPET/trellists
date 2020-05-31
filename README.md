@@ -24,6 +24,12 @@ This extension solves problem of horizontal scrolling and makes easier managemen
 
 ### Updates:
 
+#### 2.8
+* Removed useless 'storage' permission.
+
+#### 2.7
+* Minor change. Removed useless 'tabs' permission.
+
 #### 2.6
 * Fixed issue when status of list wasn't restored from localStorage when switched to new board and then back again.
 
