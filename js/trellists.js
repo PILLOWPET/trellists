@@ -17,7 +17,6 @@ const calcBoardLayout = () => {
   this.$(".board-canvas").height(f - (c + b + e));
 };
 
-// Get List name.
 const getListName = (list) => {
   return list
     .find(".list-header-name")
@@ -181,9 +180,6 @@ const restoreListStatus = (_index, listElement) => {
         // TODO: think how to avoid code duplication here.
         $("#board .list-wrapper").each(function () {
           var $list = $(this);
-          var listShowStatus = $list.hasClass("show-list")
-            ? "show-list"
-            : "hide-list";
           var listName = getListName($list);
 
           // Check if list has name to avoid 'Add new list...' placeholder.
