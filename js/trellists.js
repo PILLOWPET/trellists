@@ -212,21 +212,22 @@ const restoreListStatus = (_index, listElement) => {
           listShowStatus == "show-list" ? "hide-list" : "show-list"
         );
 
-        //TODO: use jQuery .toggle instead code below.
-        if (listShowStatus == "show-list") {
-          // Hide related list
-          $list.addClass("hide-list").removeClass("show-list").hide();
-          // Update current tab.
-          $(this).addClass("hide-list").removeClass("show-list");
-          // Change 'Show all/Hide all' button.
-          allTab.text("Show all").removeClass("show-all").addClass("hide-all");
-        } else if (listShowStatus == "hide-list") {
-          // Show related list
-          $list.addClass("show-list").removeClass("hide-list").show();
-          // Update current tab.
-          $(this).addClass("show-list").removeClass("hide-list");
-          // Change 'Show all/Hide all' button.
-          allTab.text("Hide all").removeClass("hide-all").addClass("show-all");
+        if (["show-list", "hide-list"].includes(listShowStatus)) {
+          $list.toggleClass("hide-list").toggleClass("show-list");
+          $(this).toggleClass("hide-list").toggleClass("show-list");
+          if (listShowStatus == "show-list") {
+            $list.hide();
+            allTab
+              .text("Show all")
+              .toggleClass("hide-all")
+              .toggleClass("show-all");
+          } else {
+            $list.show();
+            allTab
+              .text("Hide all")
+              .toggleClass("hide-all")
+              .toggleClass("show-all");
+          }
         }
       }
     }); // 'click' event handler ends here
