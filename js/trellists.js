@@ -28,6 +28,22 @@ const getListName = (list) => {
     .text();
 };
 
+const restoreListStatus = (index, listElement) => {
+  var listName = getListName($(listElement));
+  // There is an empty list (placeholder for new lists) and we should skip it.
+  if (listName) {
+    // Get previously stored status of this list from LocalStorage.
+    var listShowStatus = localStorage.getItem("trellists-" + listName);
+    // By default all lists are shown.
+    $(this).addClass(listShowStatus != null ? listShowStatus : "show-list");
+    if (listShowStatus == "hide-list") {
+      $(listElement).hide();
+    } else {
+      $(listElement).show();
+    }
+  }
+};
+
 (function () {
   // http://stackoverflow.com/a/7616484
   String.prototype.hashCode = function () {
@@ -43,6 +59,7 @@ const getListName = (list) => {
     }
     return hash;
   };
+  console.log("hahahaha");
 
   // Add a placeholder for the list of all list in the page header.
   new MutationSummary({
@@ -55,24 +72,7 @@ const getListName = (list) => {
       if (!$("#trellists").length) {
         $("<ul/>").attr("id", "trellists").appendTo(".board-header");
       }
-      // Restore state of each List.
-      $(".list-wrapper").each(function () {
-        var listName = getListName($(this));
-        // There is an empty list (placeholder for new lists) and we should skip it.
-        if (listName) {
-          // Get previously stored status of this list from LocalStorage.
-          var listShowStatus = localStorage.getItem("trellists-" + listName);
-          // By default all lists are shown.
-          $(this).addClass(
-            listShowStatus != null ? listShowStatus : "show-list"
-          );
-          if (listShowStatus == "hide-list") {
-            $(this).hide();
-          } else {
-            $(this).show();
-          }
-        }
-      });
+      $(".list-wrapper").each(restoreListStatus);
       renderMenu();
     },
   });
