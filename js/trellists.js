@@ -9,13 +9,24 @@
 
 // This code was copied from trello's all.js file.
 // https://d78fikflryjgj.cloudfront.net/js/0e1c2ed27cb817938de179d9d36a9043/all.js
-function calcBoardLayout() {
+const calcBoardLayout = () => {
   const f = $(window).height();
   const c = $("#header").outerHeight();
   const b = $(".header-banner:visible").outerHeight();
   const e = this.$(".board-header").outerHeight();
   this.$(".board-canvas").height(f - (c + b + e));
-}
+};
+
+// Get List name.
+const getListName = (list) => {
+  return list
+    .find(".list-header-name")
+    .clone()
+    .children()
+    .remove()
+    .end()
+    .text();
+};
 
 (function () {
   // http://stackoverflow.com/a/7616484
@@ -32,16 +43,6 @@ function calcBoardLayout() {
     }
     return hash;
   };
-
-  // This code was copied from trello's all.js file.
-  // https://d78fikflryjgj.cloudfront.net/js/0e1c2ed27cb817938de179d9d36a9043/all.js
-  function calcBoardLayout() {
-    const f = $(window).height();
-    const c = $("#header").outerHeight();
-    const b = $(".header-banner:visible").outerHeight();
-    const e = this.$(".board-header").outerHeight();
-    this.$(".board-canvas").height(f - (c + b + e));
-  }
 
   // Add a placeholder for the list of all list in the page header.
   new MutationSummary({
@@ -100,22 +101,11 @@ function calcBoardLayout() {
     );
   });
 
-  // Get List name.
-  function getListName(list) {
-    return list
-      .find(".list-header-name")
-      .clone()
-      .children()
-      .remove()
-      .end()
-      .text();
-  }
-
   /**
    * Build Top Bar which shows titles of existing lists.
    * Each time new list created ate page we rebuild top bar.
    */
-  function renderMenu() {
+  const renderMenu = () => {
     // This variable will collect all tabs in top menu.
     var li = "";
     // To count shown and hidden tabs we will use separate variables so we could switch 'Show all' and 'Hide all' tab.
@@ -180,7 +170,7 @@ function calcBoardLayout() {
     // Hides/shows List on click at tab.
     // We need to attach onClick behaviour for newly created tabs just after they was added to DOM
     // so we can't move out this code.
-    $("#trellists li").click(function () {
+    $("#trellists li").on("click", function () {
       var button = $(this).attr("data-tab-name");
 
       if (button == "all") {
@@ -243,5 +233,5 @@ function calcBoardLayout() {
         }
       }
     }); // 'click' event handler ends here
-  }
+  };
 })();
