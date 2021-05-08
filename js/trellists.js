@@ -34,7 +34,9 @@ const restoreListStatus = (_index, listElement) => {
     // Get previously stored status of this list from LocalStorage.
     var listShowStatus = localStorage.getItem("trellists-" + listName);
     // By default all lists are shown.
-    $(this).addClass(listShowStatus != null ? listShowStatus : "show-list");
+    $(listElement).addClass(
+      listShowStatus != null ? listShowStatus : "show-list"
+    );
     if (listShowStatus == "hide-list") {
       $(listElement).hide();
     } else {
