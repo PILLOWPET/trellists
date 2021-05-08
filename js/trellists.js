@@ -28,7 +28,7 @@ const getListName = (list) => {
     .text();
 };
 
-const restoreListStatus = (index, listElement) => {
+const restoreListStatus = (_index, listElement) => {
   var listName = getListName($(listElement));
   // There is an empty list (placeholder for new lists) and we should skip it.
   if (listName) {
@@ -59,7 +59,6 @@ const restoreListStatus = (index, listElement) => {
     }
     return hash;
   };
-  console.log("hahahaha");
 
   // Add a placeholder for the list of all list in the page header.
   new MutationSummary({
