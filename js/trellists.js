@@ -19,7 +19,7 @@ const calcBoardLayout = () => {
 
 const getListName = (list) => {
   return list
-    .find(".list-header-name")
+    .find(".list-header-name-assist")
     .clone()
     .children()
     .remove()
@@ -78,27 +78,23 @@ const restoreListStatus = (_index, listElement) => {
   });
 
   // Update  list name on change. Already optimized.
-  $(".list-wrapper h2.list-header-name").waitUntilExists(function () {
-    $(".list-wrapper h2.list-header-name").on(
-      "DOMSubtreeModified",
-      function () {
-        //TODO: this code fired 10 times on list name change and I must be improved.
-        var $list = $(this).parent().parent();
-        var oldListName = $list.attr("data-list-name");
-        var listName = getListName($list);
-        // Somehow List title could be empty and we need to pass by this case.
-        // Compare old title and new one to run only on title change but not subtree changes or etc.
-        if (listName && listName != oldListName) {
-          renderMenu();
-          //Remove previous name and store new one.
-          var listShowStatus = $list.hasClass("show-list")
-            ? "show-list"
-            : "hide-list";
-          localStorage.removeItem("trellists-" + oldListName);
-          localStorage.setItem("trellists-" + listName, listShowStatus);
-        }
+  $(".list-header").waitUntilExists(function () {
+    $(".list-header").on("DOMSubtreeModified", function () {
+      var list = $(this).parent().parent();
+      var listName = getListName(list);
+      var oldListName = $(this).children(".list-header-name").text();
+      // Somehow List title could be empty and we need to pass by this case.
+      // Compare old title and new one to run only on title change but not subtree changes or etc.
+      if (listName && listName !== oldListName) {
+        renderMenu();
+        //Remove previous name and store new one.
+        var listShowStatus = list.hasClass("show-list")
+          ? "show-list"
+          : "hide-list";
+        localStorage.removeItem("trellists-" + oldListName);
+        localStorage.setItem("trellists-" + listName, listShowStatus);
       }
-    );
+    });
   });
 
   /**
