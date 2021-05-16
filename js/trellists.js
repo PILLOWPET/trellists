@@ -45,6 +45,21 @@ const restoreListStatus = (_index, listElement) => {
   }
 };
 
+const updateListName = (listHeader) => {
+  var list = listHeader.parent().parent();
+  var listName = getListName(list);
+  var oldListName = listHeader.children(".list-header-name").text();
+  // Somehow List title could be empty and we need to pass by this case.
+  // Compare old title and new one to run only on title change but not subtree changes or etc.
+  if (listName && listName !== oldListName) {
+    renderMenu();
+    //Remove previous name and store new one.
+    var listShowStatus = list.hasClass("show-list") ? "show-list" : "hide-list";
+    localStorage.removeItem("trellists-" + oldListName);
+    localStorage.setItem("trellists-" + listName, listShowStatus);
+  }
+};
+
 (function () {
   // http://stackoverflow.com/a/7616484
   String.prototype.hashCode = function () {
@@ -79,22 +94,7 @@ const restoreListStatus = (_index, listElement) => {
 
   // Update  list name on change. Already optimized.
   $(".list-header").waitUntilExists(function () {
-    $(".list-header").on("DOMSubtreeModified", function () {
-      var list = $(this).parent().parent();
-      var listName = getListName(list);
-      var oldListName = $(this).children(".list-header-name").text();
-      // Somehow List title could be empty and we need to pass by this case.
-      // Compare old title and new one to run only on title change but not subtree changes or etc.
-      if (listName && listName !== oldListName) {
-        renderMenu();
-        //Remove previous name and store new one.
-        var listShowStatus = list.hasClass("show-list")
-          ? "show-list"
-          : "hide-list";
-        localStorage.removeItem("trellists-" + oldListName);
-        localStorage.setItem("trellists-" + listName, listShowStatus);
-      }
-    });
+    $(".list-header").on("DOMSubtreeModified", updateListName);
   });
 
   /**
